@@ -1,1 +1,1 @@
-<?php include_once("./Leaflet-Step-2/index.html"); ?>
+<?php include_once("index.html"); ?>
