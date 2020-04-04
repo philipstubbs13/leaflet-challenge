@@ -1,5 +1,6 @@
 // Create map object.
 const map = L.map("map", {
+  // Center is at Salt Lake City, UT.
   center: [40.7608, -111.8910],
   zoom: 4
 });
@@ -12,7 +13,8 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: API_KEY
 }).addTo(map);
 
-const link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+// All earthquakes in the past day.
+const link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 const colors = ['#90EE90', '#FFFF00', '#fed8b1', '#FFA500', '#FF8C00', '#8B0000'];
 const categories = ['0-1','1-2','2-3','3-4','4-5', '5+'];
 
@@ -35,7 +37,7 @@ const chooseColor = (magnitude) => {
 
 // Function to determine marker size based on magnitude
 const markerSize = (magnitude) => {
-  return magnitude * 5;
+  return magnitude * 4;
 }
 
 const geojsonMarkerOptions = {
@@ -48,10 +50,10 @@ const geojsonMarkerOptions = {
 d3.json(link, (data) => {
   // Create a geoJSON layer with the retrieved data.
   L.geoJson(data, {
-    pointToLayer: function (feature, latlng) {
+    pointToLayer: (feature, latlng) => {
       return L.circleMarker(latlng, geojsonMarkerOptions);
     },
-    // Style each feature (in this case an earthquake)/
+    // Style each feature (in this case an earthquake).
     style: (feature) => {
       return {
         color: "white",
@@ -64,16 +66,16 @@ d3.json(link, (data) => {
     },
     // Called on each feature
     onEachFeature: (feature, layer) => {
-      // Set mouse events to change map styling
+      // Set mouse events to change map styling.
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
-        mouseover: function(event) {
+        mouseover: (event) => {
           layer = event.target;
           layer.setStyle({
             fillOpacity: 0.9
           });
         },
-        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 40%
+        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 40%.
         mouseout: (event) => {
           layer = event.target;
           layer.setStyle({
@@ -81,19 +83,19 @@ d3.json(link, (data) => {
           });
         },
       });
-      // Giving each feature a pop-up with information pertinent to it.
+      // Give each feature a pop-up with information pertinent to it.
       layer.bindPopup(
-        `<h1>Location: ${feature.properties.place}</h1>
+        `<h4>${feature.properties.place}</h4>
         <hr>
         <p>Magnitude: ${feature.properties.mag}</p>
-        <p>Date: ${new Date(feature.properties.time)}</p>
+        <p>Date: ${moment(feature.properties.time).format('MMM DD, YYYY hh:mm a')}</p>
       `);
 
     }
   }).addTo(map);
 
-  // Add legend to bottom left of map.
-  const legend = L.control({position: 'bottomleft'});
+  // Add legend to bottom right of map.
+  const legend = L.control({position: 'bottomright'});
     legend.onAdd = function(map) {
 
     const div = L.DomUtil.create('div', 'info legend');
