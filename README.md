@@ -22,7 +22,9 @@ const config = {
 ```
 
 Replace YOUR_API_KEY with your actual api key obtained in step 2.<br>
-4. Open up the **leaflet-challenge/Leaflet-Step-1/index.html** file in Chrome to see the map.
+4. Open up the **leaflet-challenge/Leaflet-Step-1/index.html** file in Chrome using VSCode LiveServer (or another server) to see the map.
+
+![Level 1 Map](./screenshots/level1.png)
 
 ## Level 2
 
@@ -44,4 +46,6 @@ const config = {
 ```
 
 Replace YOUR_API_KEY with your actual api key obtained in step 2.<br>
-4. Open up the **leaflet-challenge/Leaflet-Step-2/index.html** file in Chrome to see the map.
+4. Open up the **leaflet-challenge/Leaflet-Step-2/index.html** file in Chrome using VSCode LiveServer (or another server) to see the map.
+
+![Level 2 Map](./screenshots/level2.png)
